@@ -1,0 +1,93 @@
+A:
+
+#include <stdio.h>
+
+int main(){
+    int t[100][3],tr[100][3],n,i,j,k=1;
+    scanf("%d",&n);
+    for(i=0;i<n+1;i++) scanf("%d%d%d",&t[i][0],&t[i][1],&t[i][2]);
+    tr[0][0]=t[0][1];
+    tr[0][1]=t[0][0];
+    tr[0][2]=t[0][2];
+    for(i=0;i<t[0][1];i++)
+        for(j=1;j<=t[0][2];j++)
+            if(t[j][1]==i){
+                tr[k][0]=t[j][1];
+                tr[k][1]=t[j][0];
+                tr[k][2]=t[j][2];
+                k++;
+            }
+    for(i=0;i<=t[0][2];i++)
+        printf("%d %d %d\n",tr[i][0],tr[i][1],tr[i][2]);
+}
+
+
+B:
+
+#include <stdio.h>
+
+int main(){
+    int a[100][3],b[100][3],c[200][3];
+    int p,q,i=1,j=1,k=1;
+    scanf("%d",&p);
+    for(int x=0;x<p+1;x++) scanf("%d%d%d",&a[x][0],&a[x][1],&a[x][2]);
+    scanf("%d",&q);
+    for(int x=0;x<q+1;x++) scanf("%d%d%d",&b[x][0],&b[x][1],&b[x][2]);
+    c[0][0]=a[0][0]; c[0][1]=a[0][1];
+    while(i<=a[0][2] && j<=b[0][2]){
+        if(a[i][0]==b[j][0] && a[i][1]==b[j][1]){
+            c[k][0]=a[i][0];
+            c[k][1]=a[i][1];
+            c[k][2]=a[i][2]+b[j][2];
+            i++; j++; k++;
+        } else if(a[i][0]<b[j][0] || (a[i][0]==b[j][0]&&a[i][1]<b[j][1])){
+            c[k][0]=a[i][0]; c[k][1]=a[i][1]; c[k][2]=a[i][2];
+            i++; k++;
+        } else {
+            c[k][0]=b[j][0]; c[k][1]=b[j][1]; c[k][2]=b[j][2];
+            j++; k++;
+        }
+    }
+    while(i<=a[0][2]){ c[k][0]=a[i][0]; c[k][1]=a[i][1]; c[k][2]=a[i][2]; i++; k++; }
+    while(j<=b[0][2]){ c[k][0]=b[j][0]; c[k][1]=b[j][1]; c[k][2]=b[j][2]; j++; k++; }
+    c[0][2]=k-1;
+    for(i=0;i<k;i++) printf("%d %d %d\n",c[i][0],c[i][1],c[i][2]);
+}
+
+C:
+
+#include <stdio.h>
+
+int main(){
+    int a[100][3],b[100][3],c[200][3];
+    int p,q;
+    scanf("%d",&p);
+    for(int i=0;i<=p;i++) scanf("%d%d%d",&a[i][0],&a[i][1],&a[i][2]);
+    scanf("%d",&q);
+    for(int i=0;i<=q;i++) scanf("%d%d%d",&b[i][0],&b[i][1],&b[i][2]);
+    int k=1;
+    c[0][0]=a[0][0]; c[0][1]=b[0][1];
+    for(int i=1;i<=a[0][2];i++){
+        for(int j=1;j<=b[0][2];j++){
+            if(a[i][1]==b[j][0]){
+                int r=a[i][0], col=b[j][1], val=a[i][2]*b[j][2];
+                int f=0;
+                for(int x=1;x<k;x++)
+                    if(c[x][0]==r && c[x][1]==col){
+                        c[x][2]+=val;
+                        f=1;
+                        break;
+                    }
+                if(!f){
+                    c[k][0]=r;
+                    c[k][1]=col;
+                    c[k][2]=val;
+                    k++;
+                }
+            }
+        }
+    }
+    c[0][2]=k-1;
+    for(int i=0;i<k;i++)
+        printf("%d %d %d\n",c[i][0],c[i][1],c[i][2]);
+}
