@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int binary(int a[], int n, int x) {
+    int l=0,r=n-1,m;
+    while(l<=r){
+        m=(l+r)/2;
+        if(a[m]==x) return m;
+        if(a[m]<x) l=m+1;
+        else r=m-1;
+    }
+    return -1;
+}
+
+int main(){
+    int a[100],n,i,x;
+    scanf("%d",&n);
+    for(i=0;i<n;i++) scanf("%d",&a[i]);
+    scanf("%d",&x);
+    int p=binary(a,n,x);
+    printf("%d",p);
+}
